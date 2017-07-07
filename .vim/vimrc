@@ -1,0 +1,487 @@
+set nocompatible
+source $VIMRUNTIME/vimrc_example.vim
+
+if has("win32")
+    set runtimepath^=$HOME/.vim
+endif
+
+" ============================================================
+"                          functions
+" ============================================================
+
+set diffexpr=MyDiff()
+function! MyDiff()
+    let opt = '-a --binary '
+    if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+    if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+    let arg1 = v:fname_in
+    if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+    let arg2 = v:fname_new
+    if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+    let arg3 = v:fname_out
+    if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+    let eq = ''
+    if $VIMRUNTIME =~ ' '
+        if &sh =~ '\<cmd'
+            let cmd = '""' . $VIMRUNTIME . '\diff"'
+            let eq = '"'
+        else
+            let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+        endif
+    else
+        let cmd = $VIMRUNTIME . '\diff'
+    endif
+    silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+"function! ToggleVerbose()
+"    if !&verbose
+"        set verbosefile=$HOME/.vim/vim.log
+"        set verbose=15
+"    else
+"        set verbose=0
+"        set verbosefile=
+"    endif
+"endfunction
+
+"function! ToggleTags()
+"    if !&tags
+"        set tags=$HOME/.vim/tags
+"    else
+"        set tags=
+"    endif
+" endfunction
+
+""" 
+" function! QfMakeConv()
+"    let qflist = getqflist()
+"    for i in qflist
+"         let i.text = iconv(i.text, "cp936", "utf-8")
+"     endfor
+"     call setqflist(qflist)
+"  endfunction
+
+"  function! ToggleScratch()
+"   if expand('%') == g:ScratchBufferName
+"     quit
+"   else
+"     Sscratch
+"   endif
+"  endfunction
+
+"""
+" function LessCompile()
+"   let current_file = shellescape(expand('%:p'))
+"   let filename = shellescape(expand('%:r'))
+"   let command = 'silent !lessc ' . current_file . ' ' . filename . '.css'
+"   execute command
+" endfunction
+" autocmd BufWritePost,FileWritePost *.less call LessCompile()
+"""
+
+" ============================================================
+"                        functions end
+" ============================================================
+
+
+" ============================================================
+"                     vundle plugin config
+" ============================================================
+
+filetype off
+set runtimepath+=$HOME/.vim/bundle/Vundle.vim
+set directory=.,$HOME/.temp
+call vundle#rc()
+
+let g:vundle_default_git_proto = 'git'
+
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'vim-scripts/genutils'
+
+" Syntax
+Plugin 'vim-scripts/groovyindent'
+Plugin 'vim-scripts/groovy.vim'
+Plugin 'sudar/vim-arduino-syntax'
+Plugin 'leshill/vim-json'
+Plugin 'pangloss/vim-javascript'
+" Plugin 'jelera/vim-javascript-syntax'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'mintplant/vim-literate-coffeescript'
+Plugin 'chaquotay/ftl-vim-syntax'
+Plugin 'othree/html5.vim'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'skammer/vim-css-color'
+Plugin 'groenewege/vim-less'
+Plugin 'rodjek/vim-puppet'
+Plugin 'vim-scripts/nginx.vim'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'chase/vim-ansible-yaml'
+Plugin 'fatih/vim-go'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'briancollins/vim-jst'
+
+" Tools
+Plugin 'vim-scripts/bufexplorer.zip'
+Plugin 'vim-scripts/JavaDecompiler.vim'
+Plugin 'uguu-org/vim-matrix-screensaver'
+Plugin 'vim-scripts/taglist.vim'
+Plugin 'vim-scripts/grep.vim'
+Plugin 'duff/vim-scratch'
+Plugin 'gregsexton/MatchTag'
+Plugin 'vim-scripts/TaskList.vim'
+Plugin 'vim-scripts/mru.vim'
+Plugin 'basepi/vim-conque'
+Plugin 'mattn/emmet-vim'
+Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'vim-scripts/sketch.vim'
+Plugin 'vim-jp/autofmt'
+" auto detect file encoding by character frequency
+Plugin 'mbbill/fencview'
+Plugin 'vim-scripts/matchit.zip'
+Plugin 'vim-scripts/javacomplete'
+Plugin 'justinmk/vim-sneak'
+Plugin 'godlygeek/tabular'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'Shougo/vimshell.vim'
+Plugin 'mattn/webapi-vim'
+Plugin 'wincent/command-t'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'bronson/vim-trailing-whitespace'
+Plugin 'moll/vim-node'
+Plugin 'majutsushi/tagbar'
+Plugin 'mattn/calendar-vim'
+Plugin 'ervandew/supertab'
+Plugin 'garbas/vim-snipmate'
+Plugin 'scrooloose/snipmate-snippets'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'Raimondi/delimitMate'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'kien/ctrlp.vim'
+Plugin 'bling/vim-airline'
+Plugin 'sukima/xmledit'
+
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/vim-statline'
+" syntax checking for many many languages
+" Plugin 'scrooloose/syntastic'
+
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-speeddating'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-markdown'
+
+" enable color scheme
+syntax enable
+set background=dark
+let g:solarized_termcolors=256
+
+" enable filetype plugin
+filetype on
+filetype plugin on
+filetype indent on
+
+" ============================================================
+"                   vundle plugin config end
+" ============================================================
+
+
+" ============================================================
+"                             misc
+" ============================================================
+
+colorscheme desert
+
+syntax on
+
+" autocmd! bufwritepost vimrc source $HOME/.vim/vimrc     " when vimrc is edited, reload it
+
+set fileformats=unix,dos,mac
+
+set colorcolumn=80      " mark 80th column with a red line
+
+set linebreak           " only wrap when blank
+
+set fo+=mB              " support for asian languages
+
+set showmatch           " parentheses match
+
+set hlsearch            " highlight searches
+
+set ignorecase          " ignore case when searching
+
+set smartcase           " no ignorecase if Uppercase char present
+
+set visualbell t_vb=    " turn off error beep/flash
+set novisualbell        " turn off visual bell
+
+set smartindent
+
+set selectmode=             " do not use select mode
+
+set mousemodel=popup        " enable context menu
+
+set keymodel=               " do not use shift + arrow to select text
+
+set selection=inclusive     " the text within the cursor is selected too when select text
+
+set wrap
+if (has('gui_running'))
+    set guioptions+=b       " show hscroll
+    set background=dark
+endif
+
+set autochdir
+
+set number                  " show line numbers
+
+set nobackup                " do not keep a backup file
+
+set isprint=@,128-255
+
+" tab stops
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set expandtab
+
+set wildchar=<TAB>                                              " use tab for auto-expansion in menus
+
+set wildmode=list:longest,list:full                             " how command line completion works
+
+set suffixes=.h,.bak,~,.o,.info,.swp,.obj                       " some filetypes got lower priority
+
+set wildignore=*.o,*.r,*.so,*.sl,*.tar,*.tgz,*.class,*.jar      " ignore some files for filename completion
+
+set showmode        " shows the current status (insert, visual, ...) in statusline
+
+set shortmess=a     " use shortest messages
+
+set omnifunc=syntaxcomplete#Complete
+
+" ============================================================
+"                           misc end
+" ============================================================
+
+
+" ============================================================
+"                      ui related config
+" ============================================================
+
+if has("win32")
+    autocmd GUIEnter * simalt ~x        " auto max vim when start
+endif
+
+set guioptions-=T                       " turn off useless toolbar
+
+set guioptions-=m                       " turn off menu bar (toggle with CTRL+F11)
+
+" show always statusline of last window
+" set laststatus=2
+" set statusline=%F%m%r%h%w\ [%{&ff}]\ [%Y]\ %{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\\"}\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [%04l,%04v][%p%%]\ [LEN=%L]\
+
+" ============================================================
+"                    ui related config end
+" ============================================================
+
+
+" ============================================================
+"                           key maps
+" ============================================================
+
+imap <C-h> <LEFT>
+imap <C-j> <DOWN>
+imap <C-k> <UP>
+imap <C-l> <RIGHT>
+imap <C-b> <DEL>
+" use C-BS to delete previous word
+imap <C-BS> <ESC>vBc
+
+" CTRL + F11 to toggle the menu bar
+nmap <C-F11> :if &guioptions=~'m' \| set guioptions-=m \| else \| set guioptions+=m \| endif<cr>
+
+" CTRL + F7 to toggle the right-hand scroll bar
+nmap <C-F7> :if &guioptions=~'r' \| set guioptions-=r \| else \| set guioptions+=r \| endif<cr>
+
+" nmap <M-,> :call search ("^". matchstr (getline (line (".")+ 1), '\(\s*\)') ."\\S", 'b')<CR>^
+" nmap <M-.> :call search ("^". matchstr (getline (line (".")), '\(\s*\)') ."\\S")<CR>^
+
+map <Leader>xml :set filetype=xml<CR>
+map <Leader>html :set filetype=html<CR>
+map <Leader>js :set filetype=javascript<CR>
+map <Leader>ftl :set filetype=ftl<CR>
+map <Leader>java :set filetype=java<CR>
+map <Leader>utf8 :set encoding=utf8<CR>
+map <leader>verbose :call ToggleVerbose()<CR>
+
+" rot-13 encode
+map <F3> ggVGg?
+map <F7> :BundleInstall<CR>
+map <F8> :call ToggleTags()<CR>
+map <F9> :call QfMakeConv()<CR>
+map <F10> :TlistToggle<CR>
+map <F11> :NERDTreeToggle<cr>
+map <F12> :call ToggleScratch()<CR>
+
+" use the arrows to something usefull
+map <right> :bn<cr>
+map <left> :bp<cr>
+
+nnoremap <Leader>m :w <BAR> !lessc % > %:t:r.css<CR><space>
+
+" ============================================================
+"                         key maps end
+" ============================================================
+
+
+" ============================================================
+"                           autocmd
+" ============================================================
+
+" autocmd BufNewFile,BufRead *.xhtml,*.xht setfiletype xhtml
+autocmd BufNewFile,BufRead *.mml setfiletype mathml
+autocmd BufNewFile,BufRead *.svg setfiletype svg
+autocmd BufNewFile,BufRead *.groovy,*.jsonx setfiletype groovy
+autocmd BufNewFile,BufRead *.ftl setfiletype ftl
+autocmd BufNewFile,BufRead *.handlebars,*.hbs setfiletype handlebars
+autocmd BufNewFile,BufRead *.pde,*.ino setfiletype arduino
+autocmd BufNewFile,BufRead jquery.*.js set ft=javascript syntax=jquery
+
+" support litcoffee
+" autocmd FileType litcoffee runtime ftplugin/coffee.vim
+
+" compile CoffeeScript when save
+" autocmd BufWritePost *.coffee,*.litcoffee silent make!
+
+" hightlight trailing whitespaces
+" highlight ExtraWhitespace ctermbg=red guibg=red
+" match ExtraWhitespace /\s\+$/
+" autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+" autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+" autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+" autocmd BufWinLeave * call clearmatches()
+
+" remove all trailing whitespaces when save
+" autocmd BufWritePre * :%s/\s\+$//e
+
+" ============================================================
+"                         autocmd end
+" ============================================================
+
+
+" ============================================================
+"                   encoding related config
+" ============================================================
+
+if has("multi_byte")
+    if &termencoding == ""
+        let &termencoding = &encoding
+    endif
+    set encoding=utf-8
+    setglobal fileencoding=utf-8
+    set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1,gbk,gb2312
+    set nobomb
+    set langmenu=zh_CN.UTF-8
+    language messages zh_CN.UTF-8
+
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+else
+    echoerr "Sorry, this version of (g)vim was not compiled with +multi_byte"
+endif
+
+" ============================================================
+"                 encoding related config end
+" ============================================================
+
+
+" ============================================================
+"                           NERDTree
+" ============================================================
+
+" let NERDTreeDirArrows=1
+" let g:NERDTreeHijackNetrw=0 " that fixes a problem with NERDTree and vim-bundler
+" let g:NERDTreeShowBookmarks=1
+" let g:NERDTreeMouseMode=3
+" let g:NERDTreeWinSize=30
+
+" ============================================================
+"                         NERDTree end
+" ============================================================
+
+
+
+" ============================================================
+"                         JsBeautify
+" ============================================================
+
+map <c-f> :call JsBeautify()<cr>
+autocmd FileType javascript noremap <buffer> <c-f> :call JsBeautify()<cr>
+" for html
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+autocmd FileType javascript vnoremap <buffer> <c-f> :call RangeJsBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
+
+" ============================================================
+"                       JsBeautify end
+" ============================================================
+
+" ============================================================
+"                     other plugins config
+" ============================================================
+"  111111111111111111111111111111111111111
+" let g:js_indent_log = 0
+
+" let g:syntastic_enable_signs = 1                                    " syntastic.vim config
+
+" let g:snippets_dir = '$HOME/.vim/bundle/snipmate-snippets'          " where to load snipmate snippets
+" source $HOME/.vim/bundle/snipmate-snippets/support_functions.vim    " load support functions
+
+" let delimitMate_excluded_ft = "xml,html,xhtml"
+
+" let coffee_compile_vert = 1
+" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+" setl scrollbind
+
+" let g:ctrlp_working_path_mode = 'ra'
+
+execute pathogen#infect()
+
+" ============================================================
+"                   other plugins config end
+" ============================================================
+
+
+" tSkeleton
+"autocmd BufNewFile *.java TSkeletonSetup template.java
+"autocmd BufNewFile *.xml TSkeletonSetup template.xml
+"autocmd BufNewFile *.ftl TSkeletonSetup template.ftl
+" Create new tag
+"if !exists('*TSkeleton_JAVA_PACKAGE') "{{{2
+"    function! TSkeleton_JAVA_PACKAGE() "{{{3
+"        let file_path = expand("%:p:h")
+"        let file_path = substitute(file_path, "\\", ".", "g")
+"        let file_path = substitute(file_path, "^.*com", "com", "g")
+"        return file_path
+"    endf
+"endif
+"if !exists('*TSkeleton_COMMENT') "{{{2
+"    function! TSkeleton_COMMENT() "{{{3
+"        let title = TSkeletonGetVar("tskelTitle", 'input("Please input file comment: ")', '')
+"        return title
+"    endf
+"endif

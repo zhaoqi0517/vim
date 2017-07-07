@@ -1,0 +1,5 @@
+repo: eccf77a6309087e16420feb4791de5a45fa69f18
+node: 25604a088ad2064afda08cae76f6b6d63ee19a3e
+branch: default
+latesttag: null
+latesttagdistance: 30

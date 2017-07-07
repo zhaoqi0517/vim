@@ -1,0 +1,29 @@
+syntax: glob
+
+# OS generated files #
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+
+.cache
+.m2
+.VirtualBox
+.subversion
+bin/env
+VirtualBox VMs
+
+.bash_history
+.gitconfig
+.kdiff3rc
+.minttyrc
+?viminfo
+*.pyc
+*.pyo
+*.un~
+
+.swap
+*.swp
+
+.vim/vim.log
+.vim/.netrwhist
