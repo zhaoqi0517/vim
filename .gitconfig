@@ -2,7 +2,7 @@
 	name = Qi Zhao
 	email = qi.zhao@sf-express.com
 [core]
-	excludesfile = /Users/tangrui/.gitignore_global
+	excludesfile = /Users/872677/.gitignore_global
 	editor = vim
 [difftool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
